@@ -49,11 +49,22 @@ function BaseSquare(gameCanvas, gameCanvasContext, newx, newy){
 		this.context.clearRect(this.canvasX, this.canvasY, BaseSquare.SquareWidth, BaseSquare.SquareHeight);
 	}
 
+	//Draws the timer on the square
+	this.drawTime = function() {
+		//Draw remaining time
+		this.context.fillStyle = "rgba(255, 0, 0, 0.5)";
+		this.context.fillRect(this.canvasX, this.canvasY, BaseSquare.SquareWidth / BaseSquare.MaxTime * this.time, 10);
+		
+		//Draw empty bar
+		this.context.fillStyle = "rgba(100, 100, 100, 0.5)";
+		this.context.fillRect(this.canvasX + BaseSquare.SquareWidth / BaseSquare.MaxTime * this.time, this.canvasY, BaseSquare.SquareWidth - (BaseSquare.SquareWidth / BaseSquare.MaxTime * this.time), 10);
+	}
+
 	//Draws the shaded overlay when unfocused
 	this.drawFocus = function() {
 		if(!this._focus)
 		{
-			this.context.fillStyle = "rgba(0, 0, 0, 0.3)"; //max of 1
+			this.context.fillStyle = "rgba(0, 0, 0, 0.3)";
 			this.context.fillRect(this.canvasX, this.canvasY, BaseSquare.SquareWidth, BaseSquare.SquareHeight);
 		}
 	}
@@ -66,6 +77,18 @@ function BaseSquare(gameCanvas, gameCanvasContext, newx, newy){
 		this.clear();
 		//If you want a default background for all gamesquares, put it here
 	}
+	
+	this.actionSuccess=function(){
+		//Add the time back on the timer
+		this.time += BaseSquare.TimeAdd;
+		if(this.time > BaseSquare.MaxTime) this.time = BaseSquare.MaxTime;
+	}
+	
+	this.actionFailure=function(){
+		//Subtract the time from the timer
+		this.time -= BaseSquare.TimeSubtract;
+		if(this.time < 0) this.time = 0;
+	}
 
 	// ************************************************************************ 
 	// PUBLIC PROPERTIES -- ANYONE MAY READ/WRITE 
@@ -75,6 +98,8 @@ function BaseSquare(gameCanvas, gameCanvasContext, newx, newy){
 	this.canvasY=newy; //y location of the square on the canvas
 	
 	this._focus = false; //Focus - when true, it will be the active square
+	
+	this.time = 100; //100 max
 	
 	this.canvas=gameCanvas;
 	this.context=gameCanvasContext;
@@ -86,9 +111,15 @@ function BaseSquare(gameCanvas, gameCanvasContext, newx, newy){
 BaseSquare.prototype.update = function(gamespeed){ this.updateBase(gamespeed); } 
 BaseSquare.prototype.draw = function(){ this.clear(); this.drawBase(); }
 BaseSquare.prototype.drawFocus = function(){ this.drawFocus(); }
+BaseSquare.prototype.drawTime = function(){ this.drawTime(); }
 
 // ************************************************************************ 
 // STATIC PROPERTIES -- ANYONE MAY READ/WRITE 
 // ************************************************************************ 
 BaseSquare.SquareWidth = 200; //CHANGE THIS TO INCREASE SQUARE SIZE
 BaseSquare.SquareHeight = 200; //CHANGE THIS TO INCREASE SQUARE SIZE
+
+BaseSquare.TimeAdd = 10; //CHANGE THIS TO INCREASE REWARD VALUE
+BaseSquare.TimeSubtract = 10; //CHANGE THIS TO DECREASE REWARD VALUE
+
+BaseSquare.MaxTime = 100;

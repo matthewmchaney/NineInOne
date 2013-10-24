@@ -20,7 +20,7 @@ var square = new Example1Game(canvas, canvasContext, 0.5 * BaseSquare.SquareWidt
 square._focus = true;
 
 //speed changing keys
-var _r = false, _f = false;
+var _r = false, _f = false, _v = false;
 
 //Canvas base clear
 function clear() {
@@ -53,6 +53,10 @@ function doKeyDown(e) {
 	if ( e.keyCode == 70 ) { //F
 		_f = true;
 	}
+	if ( e.keyCode == 86 ) { //V
+		//_v = true;
+		enableTimer = !enableTimer;
+	}
 }
 
 //KeyUp function
@@ -63,6 +67,9 @@ function doKeyUp(e) {
 	if ( e.keyCode == 70 ) { //F
 		_f = false;
 	}
+	if ( e.keyCode == 86 ) { //V
+		//_v = false;
+	}
 }
 
 //Overall GameSpeed
@@ -70,6 +77,8 @@ var gameSpeed = 100;
 
 //GameLoop object to facilitate the gameloop
 var gLoop;
+
+var enableTimer = false;
 
 //The main game loop here
 var GameLoop = function(){
@@ -82,6 +91,15 @@ var GameLoop = function(){
 	//Now update the test square
 	square.update(gameSpeed);
 	square.draw();
+	square.drawTime();
+	square.drawFocus();
+	
+	if(enableTimer)
+	{
+		square.time -= .2 * gameSpeed / 100;
+		if(square.time < 0)
+			square.time = 100;
+	}
 
 	gLoop = setTimeout(GameLoop, 1000 / 60); //60fps
 }

@@ -3,5 +3,6 @@
 //Include the dependency files [in order, I think it's necessary]
 document.write('<script type="text/javascript" src="BaseSquare.js"></script>');
 document.write('<script type="text/javascript" src="Example1Game.js"></script>');
+document.write('<script type="text/javascript" src="BlockDodgeGame.js"></script>');
 document.write('<script type="text/javascript" src="Example2Game.js"></script>'); //Replace ExampleGame.js with your game file name here
 document.write('<script type="text/javascript" src="SingleSquareTestArea.js"></script>');

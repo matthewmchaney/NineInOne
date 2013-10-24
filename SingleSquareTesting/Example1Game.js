@@ -9,9 +9,11 @@ Example1Game.prototype.constructor=Example1Game;
 //Main constructor for the game - copies the variable initializations from the base square game
 function Example1Game(gameCanvas, gameCanvasContext, newx, newy){
 	
+	//Keep these
 	this.canvas=gameCanvas;
 	this.context=gameCanvasContext;
 	
+	//Keep these
 	this.canvasX=newx;
 	this.canvasY=newy;
 	

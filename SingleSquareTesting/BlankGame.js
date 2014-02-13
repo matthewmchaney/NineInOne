@@ -35,7 +35,7 @@ YOURGAMENAMEHERE.prototype.update = function(gamespeed)
 	
 	//INCLUDE GAME UPDATE METHOD HERE
 	//Note: the base game square class already handles the arrow keys, and
-	//      you can access them by the booleans this._up, this._down, this._left, and this._right
+	//      you can access them by the booleans this.canvas._up, this.canvas._down, this.canvas._left, and this.canvas._right
 	//
 	//      when true the key is down, and when false the key is up
 }

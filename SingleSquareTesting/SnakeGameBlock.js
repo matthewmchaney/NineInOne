@@ -1,4 +1,5 @@
-var canvas = document.getElementById("the-game");
+//BlankGame.js is an empty template for a new game. Example2Game.js directly worked off of this file to show how it works. 
+var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 
 game = {
@@ -36,33 +37,33 @@ game = {
     context.fill();
   },
   
-  drawScore: function() {
+  drawScore: function(canvasX, canvasY) {
     context.fillStyle = '#999';
-    context.font = (canvas.height) + 'px Impact, sans-serif';
+    context.font = (/*canvas*/BaseSquare.SquareHeight) + 'px Impact, sans-serif';
     context.textAlign = 'center';
-    context.fillText(game.time, canvas.width/2, canvas.height  * .9);
+    context.fillText(game.time, /*canvas*/(BaseSquare.SquareWidth/2)+canvasX, /*canvas*/(BaseSquare.SquareHeight  * .9)+canvasY);
   },
   
-  drawMessage: function() {
+  drawMessage: function(canvasX, canvasY) {
     if (game.message !== null) {
       context.fillStyle = '#00F';
       context.strokeStyle = '#FFF';
-      context.font = (canvas.height / 10) + 'px Impact';
+      context.font = (/*canvas*/BaseSquare.SquareHeight / 10) + 'px Impact';
       context.textAlign = 'center';
-      context.fillText(game.message, canvas.width/2, canvas.height/2);
-      context.strokeText(game.message, canvas.width/2, canvas.height/2);
+      context.fillText(game.message, /*canvas*/(BaseSquare.SquareWidth/2)+canvasX, /*canvas*/(BaseSquare.SquareHeight/2)+canvasY);
+      context.strokeText(game.message, /*canvas*/BaseSquare.SquareWidth/2, /*canvas*/BaseSquare.SquareHeight/2);
     }
   },
   
   resetCanvas: function() {
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.clearRect(0, 0, /*canvas*/BaseSquare.SquareWidth, /*canvas*/BaseSquare.SquareHeight);
   }
   
 };
 
 snake = {
   
-  size: canvas.width / 40,
+  size: /*canvas*/BaseSquare.SquareWidth / 40,
   x: null,
   y: null,
   color: '#0F0',
@@ -72,8 +73,8 @@ snake = {
   init: function() {
     snake.sections = [];
     snake.direction = 'left';
-    snake.x = canvas.width / 2 + snake.size / 2;
-    snake.y = canvas.height /2 + snake.size / 2;
+    snake.x = /*canvas*/BaseSquare.SquareWidth / 2 + snake.size / 2;
+    snake.y = /*canvas*/BaseSquare.SquareHeight /2 + snake.size / 2;
     for (i = snake.x + (5 * snake.size); i >= snake.x; i-=snake.size) {
       snake.sections.push(i + ',' + snake.y); 
     }
@@ -99,14 +100,14 @@ snake = {
     snake.sections.push(snake.x + ',' + snake.y);
   },
   
-  draw: function() {
+  draw: function(canvasX, canvasY) {
     for (i = 0; i < snake.sections.length; i++) {
-      snake.drawSection(snake.sections[i].split(','));
+      snake.drawSection(snake.sections[i].split(','),canvasX, canvasY);
     }    
   },
   
-  drawSection: function(section) {
-    game.drawBox(parseInt(section[0]), parseInt(section[1]), snake.size, snake.color);
+  drawSection: function(section, canvasX, canvasY) {
+    game.drawBox(parseInt(section[0])+canvasX, parseInt(section[1])+canvasY, snake.size, snake.color);
   },
   
   checkCollision: function() {
@@ -117,9 +118,9 @@ snake = {
   
   isCollision: function(x, y) {
     if (x < snake.size/2 ||
-        x > canvas.width ||
+        x > /*canvas*/BaseSquare.SquareWidth ||
         y < snake.size/2 ||
-        y > canvas.height ||
+        y > /*canvas*/BaseSquare.SquareHeight ||
         snake.sections.indexOf(x+','+y) >= 0) {
       return true;
     }
@@ -159,8 +160,8 @@ food = {
     food.y = (Math.ceil(Math.random() * 10) * snake.size * 3) - snake.size / 2;
   },
   
-  draw: function() {
-    game.drawBox(food.x, food.y, food.size, food.color);
+  draw: function(canvasX, canvasY) {
+    game.drawBox(food.x+canvasX, food.y+canvasY, food.size, food.color);
   }
   
 };
@@ -199,7 +200,7 @@ addEventListener("keydown", function (e) {
     }
 }, false);
 
-var requestAnimationFrame =  window.requestAnimationFrame ||
+/*var requestAnimationFrame =  window.requestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
       window.mozRequestAnimationFrame;
 
@@ -219,3 +220,63 @@ function loop() {
 
 requestAnimationFrame(loop);
 
+*/
+//Set example game to inherit from the base game square
+SnakeGame.prototype = new BaseSquare();
+
+//Make sure it recognizes its type as YOURGAMENAMEHERE
+SnakeGame.prototype.constructor=SnakeGame;
+
+//Main constructor for the game - copies the variable initializations from the base square game
+function SnakeGame(gameCanvas, gameCanvasContext, newx, newy){
+	
+	//Set up the canvas/context
+	this.canvas=gameCanvas;
+	this.context=gameCanvasContext;
+	
+	//Set the square's location inside the canvas
+	this.canvasX=newx;
+	this.canvasY=newy;
+	this.gameCount=0;
+	//Set up the base keydown function (not necessary if you want to implement your own custom event listener), look at the update function for details
+	this.canvas.addEventListener( "keydown", this.doBaseKeyDown, true);
+
+	//Set up the base keyup function (not necessary if you want to implement your own custom event listener), look at the update function for details
+	this.canvas.addEventListener( "keyup", this.doBaseKeyUp, true);
+	
+	
+	//CUSTOM VARIABLES/FUNCTIONS FOR THE GAME GO HERE
+	
+}
+
+//Setting the update function that is called from the main game file
+SnakeGame.prototype.update = function(gamespeed)
+{ 
+	this.updateBase(gamespeed); //Keep this
+	
+	//INCLUDE GAME UPDATE METHOD HERE
+	//Note: the base game square class already handles the arrow keys, and
+	//      you can access them by the booleans this.canvas._up, this.canvas._down, this.canvas._left, and this.canvas._right
+	//
+	//      when true the key is down, and when false the key is up
+	if(this.gameCount==6){
+	   snake.move();
+	   this.gameCount=0;
+	}
+	else{
+	   this.gameCount++;
+	}
+}
+
+//Setting the update function that is called from the main game file
+SnakeGame.prototype.draw = function()
+{
+	this.clear(); //Keep this
+	this.drawBase(this.canvasX, this.canvasY); //Keep this
+	//game.resetCanvas();
+    game.drawScore(this.canvasX, this.canvasY);
+    food.draw(this.canvasX, this.canvasY);
+    snake.draw(this.canvasX, this.canvasY);
+    game.drawMessage(this.canvasX, this.canvasY);
+	//INCLUDE GAME DRAW METHOD HERE
+} 

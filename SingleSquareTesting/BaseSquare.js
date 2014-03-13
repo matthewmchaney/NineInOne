@@ -119,7 +119,7 @@ BaseSquare.prototype.drawTime = function(){ this.drawTime(); }
 BaseSquare.SquareWidth = 200; //CHANGE THIS TO INCREASE SQUARE SIZE
 BaseSquare.SquareHeight = 200; //CHANGE THIS TO INCREASE SQUARE SIZE
 
-BaseSquare.TimeAdd = 10; //CHANGE THIS TO INCREASE REWARD VALUE
-BaseSquare.TimeSubtract = 10; //CHANGE THIS TO DECREASE REWARD VALUE
+BaseSquare.TimeAdd = 20; //CHANGE THIS TO INCREASE REWARD VALUE
+BaseSquare.TimeSubtract = .1; //CHANGE THIS TO DECREASE REWARD VALUE
 
 BaseSquare.MaxTime = 100;

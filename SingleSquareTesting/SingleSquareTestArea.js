@@ -15,7 +15,7 @@ canvas.height = CANVAS_HEIGHT;
 var canvasContext = canvas.getContext('2d');
 
 //CHANGE THE ExampleGame TO YOUR GAME TYPE NAME TO USE THAT INSTEAD
-var square = new Example1Game(canvas, canvasContext, 0.5 * BaseSquare.SquareWidth, 0.5 * BaseSquare.SquareHeight);
+var square = new SimonSays(canvas, canvasContext, 0.5 * BaseSquare.SquareWidth, 0.5 * BaseSquare.SquareHeight);
 
 square._focus = true;
 
@@ -89,10 +89,8 @@ var GameLoop = function(){
 	draw();
 	
 	//Now update the test square
-	square.update(gameSpeed);
-	square.draw();
+	square.DrawIt();
 	square.drawTime();
-	square.drawFocus();
 	
 	if(enableTimer)
 	{

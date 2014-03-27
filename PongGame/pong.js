@@ -7,7 +7,7 @@ var animate = window.requestAnimationFrame ||
 //setup canvas and grab its 2d context
 var canvas = document.createElement('canvas');
 var width = 400;
-var height = 600;
+var height = 400;
 canvas.width = width;
 canvas.height = height;
 var context = canvas.getContext('2d');
@@ -60,7 +60,7 @@ Paddle.prototype.render = function() {
 
 //Player creation function
 function Player() {
-   this.paddle = new Paddle(175, 580, 50, 10);
+   this.paddle = new Paddle(175, 380, 50, 10);
 }
 
 //Computer creation function
@@ -98,7 +98,7 @@ Ball.prototype.render = function() {
 //Build objects
 var player = new Player();
 var computer = new Computer();
-var ball = new Ball(200, 300);
+var ball = new Ball(width/2, height/2);
 
 //Ball update method
 Ball.prototype.update = function(paddle1, paddle2) {
@@ -112,19 +112,19 @@ Ball.prototype.update = function(paddle1, paddle2) {
   if(this.x - 5 < 0) {//hitting left wall
     this.x = 5;
 	this.x_speed = -this.x_speed;
-  } else if(this.x + 5 > 400) {//hitting the right wall
+  } else if(this.x + 5 > width) {//hitting the right wall
     this.x = 395;
 	this.x_speed = -this.x_speed;
   }
   
-  if(this.y < 0 || this.y > 600) {//point was scored
+  if(this.y < 0 || this.y > height) {//point was scored
     this.x_speed = 0;
 	this.y_speed = 3;
-	this.x = 200;
-	this.y = 300;
+	this.x = width/2;
+	this.y = height/2;
   }
   
-  if(top_y > 300) {
+  if(top_y > height/2) {
     if(top_y < (paddle1.y + paddle1.height) && bottom_y > paddle1.y && top_x < (paddle1.x + paddle1.width) && bottom_x > paddle1.x) {
 	   //hit the player's paddle
 	   this.y_speed = -3;

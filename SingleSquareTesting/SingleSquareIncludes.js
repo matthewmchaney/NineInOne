@@ -5,5 +5,5 @@ document.write('<script type="text/javascript" src="BaseSquare.js"></script>');
 document.write('<script type="text/javascript" src="SnakeGameBlock.js"></script>');
 document.write('<script type="text/javascript" src="SimonSays.js"></script>'); //Replace ExampleGame.js with your game file name here
 document.write('<script type="text/javascript" src="BlockDodgeGame.js"></script>');
-document.write('<script type="text/javascript" src="Example2Game.js"></script>'); //Replace ExampleGame.js with your game file name here
+document.write('<script type="text/javascript" src="PongGame.js"></script>'); //Replace ExampleGame.js with your game file name here
 document.write('<script type="text/javascript" src="SingleSquareTestArea.js"></script>');
